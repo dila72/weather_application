@@ -17,7 +17,41 @@ class MyApp extends StatelessWidget {
       title: 'Weather Dashboard',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.dark(
+          primary: Colors.orange,
+          secondary: Colors.deepOrange,
+          surface: Colors.black,
+          background: Colors.black,
+        ),
+        scaffoldBackgroundColor: Colors.black,
+        cardTheme: CardThemeData(
+          color: Colors.grey[900],
+          elevation: 4,
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.orange,
+          foregroundColor: Colors.black,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.orange,
+            foregroundColor: Colors.black,
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: const OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.orange.shade700),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.orange, width: 2),
+          ),
+        ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.white),
+          bodyMedium: TextStyle(color: Colors.white),
+          bodySmall: TextStyle(color: Colors.white70),
+        ),
         useMaterial3: true,
       ),
       home: const WeatherDashboard(),
@@ -201,8 +235,11 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Personalized Weather Dashboard'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text(
+          'Personalized Weather Dashboard',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -211,7 +248,6 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
           children: [
             // Student Index Input
             Card(
-              elevation: 2,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -222,15 +258,17 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
+                        color: Colors.orange,
                       ),
                     ),
                     const SizedBox(height: 8),
                     TextField(
                       controller: _indexController,
-                      decoration: const InputDecoration(
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
                         hintText: 'e.g., 224042H',
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.school),
+                        hintStyle: TextStyle(color: Colors.grey[600]),
+                        prefixIcon: const Icon(Icons.school, color: Colors.orange),
                       ),
                     ),
                   ],
@@ -259,7 +297,6 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
             // Coordinates Display
             if (_latitude != null && _longitude != null)
               Card(
-                elevation: 2,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -270,27 +307,28 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
+                          color: Colors.orange,
                         ),
                       ),
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Icon(Icons.location_on, size: 20, color: Colors.red),
+                          const Icon(Icons.location_on, size: 20, color: Colors.orange),
                           const SizedBox(width: 8),
                           Text(
                             'Latitude: ${_latitude!.toStringAsFixed(2)}°',
-                            style: const TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ],
                       ),
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          const Icon(Icons.location_on, size: 20, color: Colors.blue),
+                          const Icon(Icons.location_on, size: 20, color: Colors.deepOrange),
                           const SizedBox(width: 8),
                           Text(
                             'Longitude: ${_longitude!.toStringAsFixed(2)}°',
-                            style: const TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ],
                       ),
@@ -302,18 +340,17 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
             // Error Message
             if (_errorMessage != null)
               Card(
-                color: Colors.red.shade50,
-                elevation: 2,
+                color: Colors.red.shade900,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
                     children: [
-                      const Icon(Icons.error, color: Colors.red),
+                      const Icon(Icons.error, color: Colors.orange),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           _errorMessage!,
-                          style: const TextStyle(color: Colors.red),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                     ],
@@ -324,8 +361,7 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
             // Weather Data Display
             if (_temperature != null && _windSpeed != null && _weatherCode != null)
               Card(
-                elevation: 2,
-                color: Colors.blue.shade50,
+                color: Colors.grey[850],
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -339,6 +375,7 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
+                              color: Colors.orange,
                             ),
                           ),
                           if (_isCached)
@@ -348,7 +385,7 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.orange.shade200,
+                                color: Colors.orange,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: const Text(
@@ -356,31 +393,32 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
                         ],
                       ),
-                      const Divider(),
+                      const Divider(color: Colors.orange),
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Icon(Icons.thermostat, size: 24, color: Colors.red),
+                          const Icon(Icons.thermostat, size: 24, color: Colors.orange),
                           const SizedBox(width: 8),
                           Text(
                             'Temperature: ${_temperature!.toStringAsFixed(1)}°C',
-                            style: const TextStyle(fontSize: 18),
+                            style: const TextStyle(fontSize: 18, color: Colors.white),
                           ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Icon(Icons.air, size: 24, color: Colors.blue),
+                          const Icon(Icons.air, size: 24, color: Colors.orange),
                           const SizedBox(width: 8),
                           Text(
                             'Wind Speed: ${_windSpeed!.toStringAsFixed(1)} km/h',
-                            style: const TextStyle(fontSize: 18),
+                            style: const TextStyle(fontSize: 18, color: Colors.white),
                           ),
                         ],
                       ),
@@ -391,7 +429,7 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
                           const SizedBox(width: 8),
                           Text(
                             'Weather Code: $_weatherCode',
-                            style: const TextStyle(fontSize: 18),
+                            style: const TextStyle(fontSize: 18, color: Colors.white),
                           ),
                         ],
                       ),
@@ -399,13 +437,13 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
                         const SizedBox(height: 8),
                         Row(
                           children: [
-                            const Icon(Icons.access_time, size: 20, color: Colors.grey),
+                            Icon(Icons.access_time, size: 20, color: Colors.orange.shade300),
                             const SizedBox(width: 8),
                             Text(
                               'Last Updated: $_lastUpdated',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.grey,
+                                color: Colors.grey[400],
                               ),
                             ),
                           ],
@@ -419,7 +457,6 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
             // Request URL Display
             if (_requestUrl != null)
               Card(
-                elevation: 1,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
@@ -430,15 +467,16 @@ class _WeatherDashboardState extends State<WeatherDashboard> {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
+                          color: Colors.orange,
                         ),
                       ),
                       const SizedBox(height: 4),
                       SelectableText(
                         _requestUrl!,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 10,
                           fontFamily: 'monospace',
-                          color: Colors.blue,
+                          color: Colors.orange.shade300,
                         ),
                       ),
                     ],
